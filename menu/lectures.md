@@ -2,10 +2,16 @@
 layout: page
 title: Forelesninger
 ---
-<ul class="posts">
-  {% for lecture in site.lectures %}
-    <li itemscope>
-      <a href="{{ site.github.url }}{{ lecture.url }}">{{ lecture.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+<h2>TRE1100 - Tretermin Matematikk</h2>
+{% for chapter in site.data.TRE1100.chapters %}
+  <h3>{{ chapter.title }}</h3>
+  <ul>    
+    {% for lecture in site.lectures %}
+      {% if lecture.chapter == chapter.number %}
+        <li itemscope>
+          <a href="{{ site.github.url }}{{ lecture.url }}">{{ lecture.title }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endfor %}
