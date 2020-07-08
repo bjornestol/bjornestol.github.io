@@ -8,5 +8,3 @@ fdp: /assets/pdf/TRE1100/Kapittel1/Forelesning1.1.pdf
 Tester her med litt tekst.
 
 <object data="{{ site.github.url }}/assets/pdf/TRE1100/Kapittel1/Forelesning-Kap-1-1.pdf" width="1000" height="1000" type='application/pdf'/>
-
-Må jo teste om det funker w is dis
