@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Velkommen til min hjemmeside! 
+title: Velkommen til min hjemmeside!
+permalink: /about/
 ---
 
 Jeg er en matematikkforeleser på OsloMet.
