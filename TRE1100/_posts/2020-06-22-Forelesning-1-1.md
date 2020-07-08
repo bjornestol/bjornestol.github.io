@@ -2,7 +2,7 @@
 layout: post
 title: "Forelesning 1.1: Tall og tallregning"
 tag: Sinus Forkurs Kapittel 1
-fdp: TRE1100/Kapittel1/Forelesning1.1.pdf
+fdp: TRE1100/Kapittel1/Forelesning-Kap-1-1.pdf
 ---
 
 Tester her med litt tekst.
