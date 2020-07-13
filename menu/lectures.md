@@ -3,7 +3,7 @@ layout: page
 title: Forelesninger
 ---
 <h2>TRE1100 - Tretermin Matematikk</h2>
-<p> Tretermin Matematikk er et kurs i matematikk for ingeniørstudenter som ikke tok R2 på videregående.
+<p> Tretermin Matematikk er et kurs i matematikk for ingeniørstudenter som ikke har spesiell studiekompetanse med fordypning i matematikk og fysikk.
 Forelesningsnotatene går gjennom boka <q>Sinus Forkurs</q>, delkapittel for delkapittel.
 <ul class = "posts">
 {% for chapter in site.data.TRE1100.chapters %}
