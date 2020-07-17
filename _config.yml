@@ -29,5 +29,7 @@ description:            'Min personlige hjemmeside for forelesningsnotater'
 #  path: rss-feed.xml
 
 collections:
+    courses:
+        output: true
     lectures:
         output: true
