@@ -1,2 +1,4 @@
 - name: "TRE1100"
   description: "Tretermin Matematikk er et kurs i matematikk for ingeniørstudenter som ikke har spesiell studekompetanse med fordypning i matematikk og fysikk. Forelesningsnotatene går gjennom boka <q>Sinus Forkus</q>, delkapittel for delkapittel."
+- name: "BYPE2000"
+  description: "Matematikk 2000 for bygg er et andreårskurs i matematikk for ingeniørstudenter på bygglinja. Forelesningene går gjennom lineær algebra, rekker, og flervariabel analyse."
