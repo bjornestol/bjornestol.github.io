@@ -5,4 +5,3 @@ title: "Lineære likningssystemer"
 chapter: "02"
 section: "01"
 ---
-
