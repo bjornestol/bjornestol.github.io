@@ -1,0 +1,20 @@
+---
+layout: default
+title: Normalfordeling
+---
+
+Dine tilfeldige tall er:
+
+<script type="text/javascript">
+  function gaussianRandom(mean=0, stdev=1) {
+    let u = 1 - Math.random();
+    let v = Math.random();
+    let z = Math.sqrt (- 2.0 * Math.log(u)) * Math.cos(2.0*Math.PI*v);
+    return mean + z*stdev;
+  }
+  let mean = 17;
+  let stdev = 6;
+  let randNums = Array.from({length: 15}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
+  
+  document.body.append(randNums)
+</script>
