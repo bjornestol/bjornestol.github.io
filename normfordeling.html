@@ -19,10 +19,10 @@ Dine tilfeldige tall er:
   docrn1.append(randNums1)
   let randNums2 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
   let docrn2 = document.createElement("p")
-  docrn2.append(randnums2)
+  docrn2.append(randNums2)
   let randNums3 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
   let docrn3 = document.createElement("p")
-  docrn3.append(randnums3)
+  docrn3.append(randNums3)
   
   bdy = document.getElementsByClass("post-container")[0]
   bdy.append(docrn1)
