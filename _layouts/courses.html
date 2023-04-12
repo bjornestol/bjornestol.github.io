@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<h1>{{ page.code }} &mdash; {{ page.name }}</h1>
+
+<p> {{ page.description }} </p>
+
+{% for item in site.data %}
+    {% if item[0] == page.code %}
+        {% assign course = item[1] %}
+        <ul class = "posts">
+        {% for chapter in course.chapters %}
+            <li>
+                <h2>{{ chapter.title }}</h2>
+                <ul>
+                    {% for lecture in site.lectures %}
+                        {% if lecture.course == page.code and lecture.chapter == chapter.number %}
+                        <li>
+                            <a href="{{ site.github.url }}{{ lecture.url }}">{{ lecture.title }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}

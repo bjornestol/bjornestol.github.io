@@ -75,6 +75,7 @@ hr {
   border-top: 1px solid #ccc;
 }
 
+
 /*
   Site container
 */
@@ -82,12 +83,12 @@ hr {
 .container {
   margin-left: auto;
   margin-right: auto;
-  width: 615px;
+  width: 960px;
 }
 
 /*48em*/
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
   .container {
     width: 90vw;
   }
