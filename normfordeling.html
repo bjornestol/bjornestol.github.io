@@ -14,7 +14,18 @@ Dine tilfeldige tall er:
   }
   let mean = 17;
   let stdev = 6;
-  let randNums = Array.from({length: 15}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
+  let randNums1 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
+  let docrn1 = document.createElement("p")
+  docrn1.append(randNums1)
+  let randNums2 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
+  let docrn2 = document.createElement("p")
+  docrn2.append(randnums2)
+  let randNums3 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
+  let docrn3 = document.createElement("p")
+  docrn3.append(randnums3)
   
-  document.body.append(randNums)
+  bdy = document.getElementsByClass("post-content")[0]
+  bdy.append(docrn1)
+  bdy.append(docrn2)
+  bdy.append(docrn3)
 </script>
