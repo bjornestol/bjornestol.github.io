@@ -3,7 +3,9 @@ layout: default
 title: Normalfordeling
 ---
 
-Dine tilfeldige tall er:
+<p>Dine tilfeldige tall er:</p>
+<div id="gridcontainer" style="display:grid;grid-template-columns:repeat(5,1fr);">
+</div>
 
 <script type="text/javascript">
   function gaussianRandom(mean=0, stdev=1) {
@@ -14,18 +16,12 @@ Dine tilfeldige tall er:
   }
   let mean = 17;
   let stdev = 6;
-  let randNums1 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
-  let docrn1 = document.createElement("p")
-  docrn1.append(randNums1)
-  let randNums2 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
-  let docrn2 = document.createElement("p")
-  docrn2.append(randNums2)
-  let randNums3 = Array.from({length: 5}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
-  let docrn3 = document.createElement("p")
-  docrn3.append(randNums3)
+  let randNums = Array.from({length: 15}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
   
-  bdy = document.getElementsByClassName("post-container")[0]
-  bdy.append(docrn1)
-  bdy.append(docrn2)
-  bdy.append(docrn3)
+  grd = document.getElementById("gridcontainer")
+  for (i in randNums) {
+    k = document.createElement("div");
+    k.innerHTML = randNums[i];
+    grd.append(k);
+  }
 </script>
