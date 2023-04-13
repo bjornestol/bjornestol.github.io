@@ -16,7 +16,7 @@ title: Normalfordeling
   }
   let mean = 17;
   let stdev = 6;
-  let randNums = Array.from({length: 15}, _ => gaussianRandom(mean, stdev).toFixed(4)).join(" ")
+  let randNums = Array.from({length: 15}, _ => gaussianRandom(mean, stdev).toFixed(4))
   
   grd = document.getElementById("gridcontainer")
   for (i in randNums) {
