@@ -2,10 +2,10 @@
 layout: default
 title: Normalfordeling
 ---
-
+<p>Fyll inn fornavnet ditt i boksen under, og trykk <q>Hent tall</q>. (Fornavn lagres ikke, brukes kun til å randomisere hvilke tall som hentes.)</p>
 <form>
   <input id="firstname" type="text">
-  <input type="button" onclick="generateNumbers();">
+  <input type="button" onclick="generateNumbers();" value="Hent tall">
 </form>
 
 <div id="gridcontainer">
@@ -51,10 +51,13 @@ title: Normalfordeling
   function generateNumbers() {
     let fname = document.getElementById("firstname").value;
     let seed = cyrb128(fname);
+    console.log(seed)
     let rnd = sfc32(seed[0], seed[1], seed[2], seed[3]);
+    console.log(rnd)
     let mean = 17;
     let stdev = 6;
     let randNums = Array.from({length:15}, _ => gaussianRandom(mean, stdev, rnd).toFixed(4));
+    console.log(randNums)
     
     let intro = document.createElement("p")
     intro.innerHTML = "Dine tilfeldige tall er:"
@@ -66,9 +69,12 @@ title: Normalfordeling
       k.innerHTML = randNums[i]
       grd.append(k);
     }
+    let newbdy = document.createElement("div");
+    newbdy.setAttribute("id", "gridcontainer")
+    newbdy.append(intro)
+    newbdy.append(grd)
     
-    bdy = document.getElementById("gridcontainer")
-    bdy.replaceWith(intro)
-    bdy.append(grd)
+    let bdy = document.getElementById("gridcontainer")
+    bdy.replaceWith(newbdy)
   }
 </script>
