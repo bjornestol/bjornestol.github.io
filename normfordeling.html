@@ -7,7 +7,7 @@ title: Normalfordeling
 <p>Ordet lagres ikke, brukes kun til å bestemme hvilke tilfeldige tall som hentes.</p>
 <form>
   <input id="randomword" type="text">
-  <input type="button" onclick="generateNumbers();" value="Hent tall">
+  <input type="submit" onsubmit="generateNumbers();" value="Hent tall">
 </form>
 
 <div id="gridcontainer">
@@ -75,5 +75,6 @@ title: Normalfordeling
     
     let bdy = document.getElementById("gridcontainer")
     bdy.replaceWith(newbdy)
+    return false
   }
 </script>
