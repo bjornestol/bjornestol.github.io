@@ -6,7 +6,7 @@ title: Normalfordeling
 <p>Fyll inn ditt tilfeldige ord under, og trykk <q>Hent tall</q>.</p>
 <p>Ordet lagres ikke, brukes kun til å bestemme hvilke tilfeldige tall som hentes.</p>
 <form>
-  <input id="firstname" type="text">
+  <input id="randomword" type="text">
   <input type="button" onclick="generateNumbers();" value="Hent tall">
 </form>
 
@@ -51,7 +51,7 @@ title: Normalfordeling
     }
   }
   function generateNumbers() {
-    let fname = document.getElementById("firstname").value;
+    let fname = document.getElementById("randomword").value;
     let seed = cyrb128(fname);
     let rnd = sfc32(seed[0], seed[1], seed[2], seed[3]);
     let mean = 17;
