@@ -19,11 +19,24 @@ css_files:
     </div>
   </div>
 </div>
+<div class="kalk-page-wrapper">
+<div class="feilmelding" id="fm"></div>
+</div>
 <p>Jeg planlegger legge inn hvordan man kan bruke denne til å finne kjente tall som 0 og 2 når jeg klarer finne dem selv.</p>
 <script>
   var stack = [];
   const inputValue = document.getElementById("user-input");
+  const feilmelding = document.getElementById("fm");
+  function printFeil(feil) {
+    feilmelding.innerText = feil;
+    feilmelding.classList.add('vis');
+  }
+  function fjernFeil() {
+    feilmelding.innerText = "";
+    feilmelding.classList.remove('vis');
+  }
   function updateDisplay() {
+    fjernFeil();
     if (stack.length == 0) {
       inputValue.innerText = "Ø"
     } else {
@@ -47,6 +60,7 @@ css_files:
   eml.addEventListener("click", e => {
     if (stack.length < 2) {
       console.log("Error: Need at least two numbers on stack to use EML");
+      printFeil("Brukerfeil: Trenger minst to tall på stabel for å bruke EML");
     } else {
       const x = stack.pop();
       const y = stack.pop();
