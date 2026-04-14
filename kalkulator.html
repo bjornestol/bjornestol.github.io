@@ -62,7 +62,7 @@ css_files:
     } else {
       const x = stack.pop();
       const y = stack.pop();
-      stack.push(math.exp(x) - math.log(y));
+      stack.push(math.complex(math.exp(x) - math.log(y)));
       updateDisplay();
     }
   });
