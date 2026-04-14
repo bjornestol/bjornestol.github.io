@@ -51,9 +51,10 @@ css_files:
     if (value.im == 0) {
       return formatDecimals(value.re);
     } else if (value.re == 0) {
-      return formatDecimals(value.im) + "i"
+      return formatDecimals(value.im) + "i";
     } else {
-      return formatDecimals(value.re) + " + " + formatDecimals(value.im) + "i"
+      return formatDecimals(value.re) + " + " + formatDecimals(value.im) + "i";
+    }
   }
   const one = document.querySelector(".one");
   one.addEventListener("click", e => {
