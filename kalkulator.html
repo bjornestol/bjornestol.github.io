@@ -41,19 +41,7 @@ css_files:
     if (stack.length == 0) {
       inputValue.innerText = "Ø"
     } else {
-      inputValue.innerHTML = stack.map(num => formatDecimals(num)).join('<br>');
-    }
-  }
-  function formatDecimals(value, maxDecimals = 2) {
-    return parseFloat(value.re.toFixed(maxDecimals)).toString();
-  }
-  function printComplex(value) {
-    if (value.im == 0) {
-      return formatDecimals(value.re);
-    } else if (value.re == 0) {
-      return formatDecimals(value.im) + "i";
-    } else {
-      return formatDecimals(value.re) + " + " + formatDecimals(value.im) + "i";
+      inputValue.innerHTML = stack.map(num => num.format(2)).join('<br>');
     }
   }
   const one = document.querySelector(".one");
