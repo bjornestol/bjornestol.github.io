@@ -36,12 +36,12 @@ css_files:
     feilmelding.innerText = "";
     feilmelding.classList.remove('vis');
   }
-  function updateDisplay() {
+  function updateDisplay(digits = 4) {
     fjernFeil();
     if (stack.length == 0) {
       inputValue.innerText = "Ø"
     } else {
-      inputValue.innerHTML = stack.map(num => num.format(2)).join('<br>');
+      inputValue.innerHTML = stack.map(num => num.format(digits)).join('<br>');
     }
   }
   const one = document.querySelector(".one");
@@ -62,7 +62,7 @@ css_files:
     } else {
       const x = stack.pop();
       const y = stack.pop();
-      stack.push(math.complex(math.exp(x) - math.log(y)));
+      stack.push(math.add(math.exp(x), math.log(y).neg()));
       updateDisplay();
     }
   });
