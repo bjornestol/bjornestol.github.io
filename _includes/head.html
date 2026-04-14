@@ -16,7 +16,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
-  <link rel="stylesheet" href="{{ site.github.url }}/assets/css/kalk.css">
+
+  <!-- Page-specific CSS -->
+  {% if page.css_files &}
+    {% for css_file in page.css_files %}
+      <link rel="stylesheet" href="{{ site.github.url }}{{ '/assets/css' | append: css_file }}">
+    {% endfor %}
+  {& endif %}
   <!-- Use Atom -->
   {% feed_meta %}
   <!-- Use RSS-2.0 -->
