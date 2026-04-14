@@ -23,6 +23,7 @@ css_files:
 <div class="feilmelding" id="fm"></div>
 </div>
 <p>Jeg planlegger legge inn hvordan man kan bruke denne til å finne kjente tall som 0 og 2 når jeg klarer finne dem selv.</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.js" integrity="sha512-AJmFmOXFAAzxbzp498VFGf+/Ke7n/O/Pz7L7R2in/4lEDkqhFvuIemyJo/MzXORunJkrJngeIyaWqLAj2rTY2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   var stack = [];
   const inputValue = document.getElementById("user-input");
@@ -43,12 +44,20 @@ css_files:
       inputValue.innerHTML = stack.map(num => formatDecimals(num)).join('<br>');
     }
   }
-  function formatDecimals(value, maxDecimals = 5) {
-    return parseFloat(value.toFixed(maxDecimals)).toString();
+  function formatDecimals(value, maxDecimals = 2) {
+    return parseFloat(value.re.toFixed(maxDecimals)).toString();
+  }
+  function printComplex(value) {
+    if (value.im == 0) {
+      return formatDecimals(value.re);
+    } else if (value.re == 0) {
+      return formatDecimals(value.im) + "i"
+    } else {
+      return formatDecimals(value.re) + " + " + formatDecimals(value.im) + "i"
   }
   const one = document.querySelector(".one");
   one.addEventListener("click", e => {
-    stack.push(1);
+    stack.push(math.complex(1, 0));
     updateDisplay();
   });
   const clear = document.querySelector(".clear");
@@ -64,7 +73,7 @@ css_files:
     } else {
       const x = stack.pop();
       const y = stack.pop();
-      stack.push(Math.exp(x) - Math.log(y));
+      stack.push(math.exp(x) - math.log(y));
       updateDisplay();
     }
   });
