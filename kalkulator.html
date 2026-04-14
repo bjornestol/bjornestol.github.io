@@ -4,16 +4,22 @@ title: Kalkulator
 css_files:
   - kalk.css
 ---
-<div class="container">
-  <div class="calc-text">
-  <p name="user-input" id="user-input">Ø</p>
-  </div>
-  <div class="calc-keys">
-    <button type="button" class="key-others operations clear">C</button>
-    <button type="button" class="key-operate operations eml">EML</button>
-    <button type="button" class="one">1</button>
+<p>Det ble <a href="https://arxiv.org/pdf/2603.21852">nylig vist</a> at en kalkulator ikke trenger så mange fancy knapper. Denne kalkulatoren gjør alt du trenger!</p>
+
+<p>Kalkulatoren bruker <a href="https://no.wikipedia.org/wiki/Omvendt_polsk_notasjon">omvendt polsk notasjon</a>, og stabelen vises fortløpende.</p>
+<div class="kalk-page-wrapper">
+  <div class="kalk-container">
+    <div class="kalk-text" name="user-input" id="user-input">
+      <p>Ø</p>
+    </div>
+    <div class="kalk-keys">
+      <button type="button" class="key-others operations clear">C</button>
+      <button type="button" class="key-operate operations eml">EML</button>
+      <button type="button" class="one">1</button>
+    </div>
   </div>
 </div>
+<p>Jeg planlegger legge inn hvordan man kan bruke denne til å finne kjente tall som 0 og 2 når jeg klarer finne dem selv.</p>
 <script>
   var stack = [];
   const inputValue = document.getElementById("user-input");
@@ -21,8 +27,11 @@ css_files:
     if (stack.length == 0) {
       inputValue.innerText = "Ø"
     } else {
-      inputValue.innerText = stack.toString();
+      inputValue.innerHTML = stack.map(num => formatDecimals(num)).join('<br>');
     }
+  }
+  function formatDecimals(value, maxDecimals = 5) {
+    return parseFloat(value.toFixed(maxDecimals)).toString();
   }
   const one = document.querySelector(".one");
   one.addEventListener("click", e => {

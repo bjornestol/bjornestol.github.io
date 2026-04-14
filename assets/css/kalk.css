@@ -1,4 +1,10 @@
-.container {
+.kalk-page-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kalk-container {
   background: #000000;
   padding: 25px;
   width: 275px;
@@ -6,24 +12,21 @@
   color: white;
 }
 
-.calc-text {
+.kalk-text {
+  display: block;
   margin-bottom: 20px;
   padding-left: 5px;
-}
-
-.calc-text p {
   width: 100%;
   font-size: 3.5rem;
+  line-height: 1;
   text-align: end;
   background: transparent;
   color: #fff;
   border: none;
   outline: none;
-  word-wrap: break-word;
-  word-break: break-all;
 }
 
-.calc button {
+button {
   background: #333333;
   color: #fff;
   font-size: 1.5rem;
@@ -34,12 +37,12 @@
   width: 65px;
 }
 
-.calc button:active,
-.calc button:focus {
+button:active,
+button:focus {
   filter: brightness(120%);
 }
 
-.calc-keys {
+.kalk-keys {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 15px;

@@ -18,11 +18,11 @@
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
 
   <!-- Page-specific CSS -->
-  {% if page.css_files &}
+  {% if page.css_files %}
     {% for css_file in page.css_files %}
-      <link rel="stylesheet" href="{{ site.github.url }}{{ '/assets/css' | append: css_file }}">
+      <link rel="stylesheet" href="{{ site.github.url }}{{ '/assets/css/' | append: css_file }}">
     {% endfor %}
-  {& endif %}
+  {% endif %}
   <!-- Use Atom -->
   {% feed_meta %}
   <!-- Use RSS-2.0 -->
