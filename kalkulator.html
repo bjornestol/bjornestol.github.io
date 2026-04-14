@@ -36,12 +36,21 @@ css_files:
     feilmelding.innerText = "";
     feilmelding.classList.remove('vis');
   }
+  function formatNum(value, digits) {
+    if (value.re == Infinity) {
+      return "∞";
+    } else if (value.re == -Infinity) {
+      return "-∞";
+    } else {
+      return value.format(digits);
+    }
+  }
   function updateDisplay(digits = 4) {
     fjernFeil();
     if (stack.length == 0) {
       inputValue.innerText = "Ø"
     } else {
-      inputValue.innerHTML = stack.map(num => num.format(digits)).join('<br>');
+      inputValue.innerHTML = stack.map(num => formatNum(num, digits)).join('<br>');
     }
   }
   const one = document.querySelector(".one");
@@ -55,6 +64,13 @@ css_files:
     updateDisplay();
   });
   const eml = document.querySelector(".eml");
+  function fixInf(cmplx) {
+    if (!isFinite(cmplx.im)) {
+      return math.complex(cmplx.re, 0);
+    } else {
+      return cmplx;
+    }
+  }
   eml.addEventListener("click", e => {
     if (stack.length < 2) {
       console.log("Error: Need at least two numbers on stack to use EML");
@@ -62,7 +78,7 @@ css_files:
     } else {
       const x = stack.pop();
       const y = stack.pop();
-      stack.push(math.add(math.exp(x), math.log(y).neg()));
+      stack.push(fixInf(math.add(math.exp(x), math.log(y).neg())));
       updateDisplay();
     }
   });
