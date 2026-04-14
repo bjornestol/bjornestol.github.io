@@ -20,9 +20,9 @@ permalink:           none
 plugins:             [jekyll-paginate, jekyll-sitemap, jekyll-feed, jekyll-seo-tag]
 
 # Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
-title:		           'Notater'
+title:		           'Diverse'
 author:              'Nikolai Bjørnestøl Hansen'
-description:            'Min personlige hjemmeside for forelesningsnotater'
+description:            'Min personlige hjemmeside for diverse'
 
 # RSS 2.0 can be used instead of Atom by uncommenting following two lines
 #feed:
