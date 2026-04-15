@@ -48,9 +48,20 @@ css_files:
   function updateDisplay(digits = 4) {
     fjernFeil();
     if (stack.length == 0) {
-      inputValue.innerText = "Ø"
+      inputValue.innerText = "Ø";
     } else {
-      inputValue.innerHTML = stack.map(num => formatNum(num, digits)).join('<br>');
+      inputValue.innerText = "";
+      stack.forEach(num => {
+        let formatted = formatNum(digits);
+        const line = document.createElement('div');
+        line.className = 'stackelem';
+        line.textContent = formatted;
+
+        if (formatted.length > 6) {
+          line.classList.add('longnum');
+        }
+        inputValue.appendChild(line);
+      });
     }
   }
   const one = document.querySelector(".one");
