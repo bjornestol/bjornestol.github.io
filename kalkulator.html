@@ -52,7 +52,7 @@ css_files:
     } else {
       inputValue.innerText = "";
       stack.forEach(num => {
-        let formatted = formatNum(digits);
+        let formatted = formatNum(num, digits);
         const line = document.createElement('div');
         line.className = 'stackelem';
         line.textContent = formatted;
