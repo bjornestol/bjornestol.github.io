@@ -69,3 +69,19 @@ button:focus {
 .feilmelding.vis {
   display: block;
 }
+
+.stackelem {
+    padding: 5px 0;
+    border-bottom: 1px solid #222;
+    font-size: 3.5rem;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+stackelem.longnum {
+    font-size: 1.2rem;
+}
+
+.stackelem:last-child {
+    border-bottom: none;
+}
