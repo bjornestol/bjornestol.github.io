@@ -27,6 +27,7 @@ css_files:
 <li>$x-y$: <code>1 y EML 1 x 1 EML EML 1 EML EML</code></li>
 </ul>
 <p>Jeg planlegger legge inn hvordan man kan bruke denne til å finne kjente tall som 0 og 2 når jeg klarer finne dem selv.</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.js" integrity="sha512-AJmFmOXFAAzxbzp498VFGf+/Ke7n/O/Pz7L7R2in/4lEDkqhFvuIemyJo/MzXORunJkrJngeIyaWqLAj2rTY2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   var stack = [];
   const inputValue = document.getElementById("user-input");
@@ -39,20 +40,37 @@ css_files:
     feilmelding.innerText = "";
     feilmelding.classList.remove('vis');
   }
-  function updateDisplay() {
-    fjernFeil();
-    if (stack.length == 0) {
-      inputValue.innerText = "Ø"
+  function formatNum(value, digits) {
+    if (value.re == Infinity) {
+      return "∞";
+    } else if (value.re == -Infinity) {
+      return "-∞";
     } else {
-      inputValue.innerHTML = stack.map(num => formatDecimals(num)).join('<br>');
+      return value.format(digits);
     }
   }
-  function formatDecimals(value, maxDecimals = 5) {
-    return parseFloat(value.toFixed(maxDecimals)).toString();
+  function updateDisplay(digits = 4) {
+    fjernFeil();
+    if (stack.length == 0) {
+      inputValue.innerText = "Ø";
+    } else {
+      inputValue.innerText = "";
+      stack.forEach(num => {
+        let formatted = formatNum(num, digits);
+        const line = document.createElement('div');
+        line.className = 'stackelem';
+        line.textContent = formatted;
+
+        if (formatted.length > 6) {
+          line.classList.add('longnum');
+        }
+        inputValue.appendChild(line);
+      });
+    }
   }
   const one = document.querySelector(".one");
   one.addEventListener("click", e => {
-    stack.push(1);
+    stack.push(math.complex(1, 0));
     updateDisplay();
   });
   const clear = document.querySelector(".clear");
@@ -61,6 +79,9 @@ css_files:
     updateDisplay();
   });
   const eml = document.querySelector(".eml");
+  function diff(a, b) {
+    return math.complex(a.re - b.re, a.im - b.im)
+  }
   eml.addEventListener("click", e => {
     if (stack.length < 2) {
       console.log("Error: Need at least two numbers on stack to use EML");
@@ -68,7 +89,7 @@ css_files:
     } else {
       const x = stack.pop();
       const y = stack.pop();
-      stack.push(Math.exp(x) - Math.log(y));
+      stack.push(diff(math.exp(x), math.log(y)));
       updateDisplay();
     }
   });
