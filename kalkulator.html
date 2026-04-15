@@ -64,12 +64,8 @@ css_files:
     updateDisplay();
   });
   const eml = document.querySelector(".eml");
-  function fixInf(cmplx) {
-    if (!isFinite(cmplx.im)) {
-      return math.complex(cmplx.re, 0);
-    } else {
-      return cmplx;
-    }
+  function diff(a, b) {
+    return math.complex(a.re - b.re, a.im - b.im)
   }
   eml.addEventListener("click", e => {
     if (stack.length < 2) {
@@ -78,7 +74,7 @@ css_files:
     } else {
       const x = stack.pop();
       const y = stack.pop();
-      stack.push(fixInf(math.add(math.exp(x), math.log(y).neg())));
+      stack.push(diff(math.exp(x), math.log(y)));
       updateDisplay();
     }
   });
