@@ -18,7 +18,7 @@
   padding-left: 5px;
   width: 100%;
   font-size: 3.5rem;
-  line-height: 1.2;
+  line-height: 1.25;
   text-align: end;
   background: transparent;
   color: #fff;
@@ -72,9 +72,11 @@ button:focus {
 
 .stackelem {
     padding: 5px 0;
+    font-size: clamp(1rem, 5vw, 3.5rem);
     border-bottom: 1px solid #222;
     white-space: nowrap;
-    overflow-x: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .stackelem.longnum {
