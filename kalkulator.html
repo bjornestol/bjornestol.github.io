@@ -22,11 +22,6 @@ css_files:
 <div class="kalk-page-wrapper">
 <div class="feilmelding" id="fm"></div>
 </div>
-<p>Bruksanvisning:</p>
-<ul>
-<li>$x-y$: <code>1 y EML 1 x 1 EML EML 1 EML EML</code></li>
-</ul>
-<p>Jeg planlegger legge inn hvordan man kan bruke denne til å finne kjente tall som 0 og 2 når jeg klarer finne dem selv.</p>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.js" integrity="sha512-AJmFmOXFAAzxbzp498VFGf+/Ke7n/O/Pz7L7R2in/4lEDkqhFvuIemyJo/MzXORunJkrJngeIyaWqLAj2rTY2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   var stack = [];
@@ -84,11 +79,10 @@ css_files:
   }
   eml.addEventListener("click", e => {
     if (stack.length < 2) {
-      console.log("Error: Need at least two numbers on stack to use EML");
       printFeil("Brukerfeil: Trenger minst to tall på stabel for å bruke EML");
     } else {
-      const x = stack.pop();
       const y = stack.pop();
+      const x = stack.pop();
       stack.push(diff(math.exp(x), math.log(y)));
       updateDisplay();
     }
