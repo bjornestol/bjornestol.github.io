@@ -8,83 +8,215 @@ css_files:
 
 <p>Kalkulatoren bruker <a href="https://no.wikipedia.org/wiki/Omvendt_polsk_notasjon">omvendt polsk notasjon</a>, og stabelen vises fortløpende.</p>
 <div class="kalk-page-wrapper">
+  <div class="spacer"></div>
   <div class="kalk-container">
     <div class="kalk-text" name="user-input" id="user-input">
       <p>Ø</p>
     </div>
-    <div class="kalk-keys">
-      <button type="button" class="key-others operations clear">C</button>
-      <button type="button" class="key-operate operations eml">EML</button>
-      <button type="button" class="one">1</button>
+    <div class="kalk-keys" id="knapper">
     </div>
   </div>
+  <div class="sidebar"></div>
 </div>
 <div class="kalk-page-wrapper">
 <div class="feilmelding" id="fm"></div>
 </div>
+<p> Om du mener kalkulatoren trenger mer, bygg funksjonalitet selv. Funksjonalitet kan ta imot maks 3 variable, med navn $x$, $y$, og $z$, og kan bruke tidligere bygde funksjonaliteter.</p>
+<div class="kalk-page-wrapper">
+<div class="input-row">
+  <input type="text" id="opname" class="name-input" placeholder="exp">
+  <input type="text" id="knappstreng" class="knapp-input" placeholder = "x 1 EML">
+  <button id="build-button" class="build-btn">Bygg</button>
+</div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.js" integrity="sha512-AJmFmOXFAAzxbzp498VFGf+/Ke7n/O/Pz7L7R2in/4lEDkqhFvuIemyJo/MzXORunJkrJngeIyaWqLAj2rTY2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-  var stack = [];
-  const inputValue = document.getElementById("user-input");
-  const feilmelding = document.getElementById("fm");
-  function printFeil(feil) {
-    feilmelding.innerText = feil;
-    feilmelding.classList.add('vis');
-  }
-  function fjernFeil() {
-    feilmelding.innerText = "";
-    feilmelding.classList.remove('vis');
-  }
-  function formatNum(value, digits) {
-    if (value.re == Infinity) {
-      return "∞";
-    } else if (value.re == -Infinity) {
-      return "-∞";
-    } else {
-      return value.format(digits);
-    }
-  }
-  function updateDisplay(digits = 4) {
-    fjernFeil();
-    if (stack.length == 0) {
-      inputValue.innerText = "Ø";
-    } else {
-      inputValue.innerText = "";
-      stack.forEach(num => {
-        let formatted = formatNum(num, digits);
-        const line = document.createElement('div');
-        line.className = 'stackelem';
-        line.textContent = formatted;
+var stack = [];
+var buttons = [{name: 'EML', arity: 2, effect: emlEffect}, {name: '1', arity: 0, effect: oneEffect}];
+const inputValue = document.getElementById("user-input");
+const feilmelding = document.getElementById("fm");
+const knapper = document.getElementById("knapper");
 
-        if (formatted.length > 6) {
-          line.classList.add('longnum');
-        }
-        inputValue.appendChild(line);
-      });
-    }
-  }
-  const one = document.querySelector(".one");
-  one.addEventListener("click", e => {
-    stack.push(math.complex(1, 0));
+async function clickButton(arity, effect) {
+  if (stack.length < arity) {
+    printFeil("Brukerfeil: Trenger minst " + arity + " tall på stabelen.");
+  } else {
+    await effect();
     updateDisplay();
-  });
-  const clear = document.querySelector(".clear");
+  }
+}
+
+function makeButtons() {
+  const knapper = document.getElementById("knapper"); 
+  knapper.innerText = "";
+  const clear = document.createElement("button");
+  clear.innerText="C";
+  clear.classList.add("key-others");
+  clear.classList.add("operations");
+  clear.classList.add("kalk")
   clear.addEventListener("click", e => {
     stack = [];
     updateDisplay();
   });
-  const eml = document.querySelector(".eml");
+  knapper.appendChild(clear);
+  buttons.forEach(b => {
+    knapp = document.createElement("button");
+    knapp.innerText = b.name;
+    knapp.classList.add("kalk")
+    if (b.arity > 0) {
+      knapp.classList.add("key-operate");
+    }
+    knapp.addEventListener("click", e => {
+      clickButton(b.arity, b.effect)
+    });
+    knapper.appendChild(knapp);
+  });
+}
+
+async function oneEffect() {
+  stack.push({num: math.complex(1, 0), recipe: ['1']});
+}
+
+async function emlEffect() {
   function diff(a, b) {
     return math.complex(a.re - b.re, a.im - b.im)
   }
-  eml.addEventListener("click", e => {
-    if (stack.length < 2) {
-      printFeil("Brukerfeil: Trenger minst to tall på stabel for å bruke EML");
-    } else {
-      const y = stack.pop();
-      const x = stack.pop();
-      stack.push(diff(math.exp(x), math.log(y)));
-      updateDisplay();
+  const y = stack.pop();
+  const x = stack.pop();
+  const newVal = diff(math.exp(x.num), math.log(y.num));
+  const newRecipe = x.recipe.concat(y.recipe).concat(['EML']);
+  stack.push({num: newVal, recipe: newRecipe});
+}
+
+makeButtons();
+
+document.getElementById('build-button').addEventListener('click', () => {
+  const navn = document.getElementById('opname');
+  const oppgave = document.getElementById('knappstreng');
+  if (navn.value && oppgave.value) {
+    lagKnapp(navn.value, oppgave.value);   
+    navn.value = '';
+    oppgave.value = '';
+  } else {
+    printFeil("Vennligst fyll inn begge verdiene i knappbyggeren.")
+  }
+});
+
+function lovligKnapp(knappstreng) {
+  const stabel = knappstreng.split(' ').filter(x => x != '');
+  var ulovlige = stabel.filter(x => !buttons.map(e => e.name).includes(x)).filter(x => !['x', 'y', 'z'].includes(x));
+  if (ulovlige.length > 0) {
+    printFeil("Knappmakerfeil: Kjenner ikke igjen konstant eller operator " + ulovlige[0]);
+    return false;  
+  }
+  var availvars = 0;
+  for (var op in stabel) {
+    if (['x', 'y', 'z'].includes(stabel[op])) {
+      availvars = availvars + 1;
+      continue;
     }
-  });
+    var btn = buttons.find(b => b.name == stabel[op]);
+    if (availvars < btn.arity) {
+      printFeil("Knappmakerfeil: Operator " + btn.name + " har ikke nok verdier. Har " + availvars + ", trenger " + btn.arity + ".");
+      return false;
+    }
+    availvars = availvars - btn.arity + 1;
+  }
+  if (availvars != 1) {
+    printFeil("Knappmakerfeil: Operator gir ut flere verdier")
+    return false;
+  }
+  fjernFeil();
+  return true;
+}
+
+function knappAritet(knappstreng) {
+  const stabel = knappstreng.split(' ').filter(x => x != '');
+  if (stabel.includes('z')) {
+    return 3;
+  } else if (stabel.includes('y')) {
+    return 2;
+  } else if (stabel.includes('x')) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+async function kjørKnapp(aritet, knappstreng) {
+  var input = [];
+  var wait = 200;
+  for (var i = 0; i < aritet; i++) {
+    input.push(stack.pop());
+    updateDisplay();
+    await new Promise(r => setTimeout(r, wait));
+  }
+  input.reverse();
+  const stabel = knappstreng.split(' ').filter(x => x!= '');
+  for (var i in stabel) {
+    var op = stabel[i];  
+    if (op == 'x') {
+      stack.push(input[0]);
+      updateDisplay();
+    } else if (op == 'y') {
+      stack.push(input[1]);
+      updateDisplay();
+    } else if (op == 'z') {
+      stack.push(input[2]);
+      updateDisplay();
+    } else {
+      var btn = buttons.find(b => b.name == op);
+      await clickButton(btn.arity, btn.effect);
+    }
+    await new Promise(r => setTimeout(r, wait));
+  }
+}
+
+function lagKnapp(navn, knappstreng) {
+  if (!lovligKnapp(knappstreng)) {return;}
+  var aritet = knappAritet(knappstreng);
+  buttons.push({name: navn, arity: aritet, effect: e => kjørKnapp(aritet, knappstreng)})
+  makeButtons();
+}
+
+function printFeil(feil) {
+  feilmelding.innerText = feil;
+  feilmelding.classList.add('vis');
+}
+function fjernFeil() {
+  feilmelding.innerText = "";
+  feilmelding.classList.remove('vis');
+}
+
+
+function formatNum(value, digits) {
+  if (value.re == Infinity) {
+    return "∞";
+  } else if (value.re == -Infinity) {
+    return "-∞";
+  } else {
+    return value.format(digits);
+  }
+}
+function updateDisplay(digits = 4) {
+  fjernFeil();
+  if (stack.length == 0) {
+    inputValue.innerText = "Ø";
+  } else {
+    inputValue.innerText = "";
+    stack.forEach(num => {
+      let formatted = formatNum(num.num, digits);
+      const line = document.createElement('div');
+      line.className = 'stackelem';
+      line.textContent = formatted;
+
+      if (formatted.length > 6) {
+        line.classList.add('longnum');
+      }
+      inputValue.appendChild(line);
+    });
+  }
+}
+
 </script>
