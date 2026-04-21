@@ -95,9 +95,11 @@ document.getElementById('build-button').addEventListener('click', () => {
   const navn = document.getElementById('opname');
   const oppgave = document.getElementById('knappstreng');
   if (navn.value && oppgave.value) {
-    lagKnapp(navn.value, oppgave.value);   
-    navn.value = '';
-    oppgave.value = '';
+    const success = lagKnapp(navn.value, oppgave.value);   
+    if (success) {
+      navn.value = '';
+      oppgave.value = '';
+    }
   } else {
     printFeil("Vennligst fyll inn begge verdiene i knappbyggeren.")
   }
@@ -173,11 +175,26 @@ async function kjørKnapp(aritet, knappstreng) {
   }
 }
 
+function lovligNavn(navn) {
+  const splittet = navn.split(' ');
+  if (splittet.length != 1) {
+    printFeil("Ikke lov med mellomrom i navn på knapp");
+    return false;
+  }
+  if (navn.length > 4) {
+    printFeil("Knappenavn kan maksimalt ha 4 tegn");
+    return false;
+  }
+  return true;
+}
+
 function lagKnapp(navn, knappstreng) {
-  if (!lovligKnapp(knappstreng)) {return;}
+  if (!lovligNavn(navn)) {return false;}
+  if (!lovligKnapp(knappstreng)) {return false;}
   var aritet = knappAritet(knappstreng);
   buttons.push({name: navn, arity: aritet, effect: e => kjørKnapp(aritet, knappstreng)})
   makeButtons();
+  return true;
 }
 
 function printFeil(feil) {
