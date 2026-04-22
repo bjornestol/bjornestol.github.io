@@ -63,6 +63,12 @@ button:focus {
   grid-column-gap: 10px;
 }
 
+.kalkmini {
+  height: 35px;
+  width: 35px;
+  font-size: 0.7rem;
+}
+
 .key-operate {
   background: #ff9501;
 }
@@ -70,6 +76,11 @@ button:focus {
 .key-others {
   background: #a6a6a6;
   color: #000000;
+}
+
+.dragging {
+  opacity: 0.5;
+  background-color: #444;
 }
 
 .feilmelding {

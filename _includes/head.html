@@ -42,6 +42,15 @@
         }
       });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.js" integrity="sha512-AJmFmOXFAAzxbzp498VFGf+/Ke7n/O/Pz7L7R2in/4lEDkqhFvuIemyJo/MzXORunJkrJngeIyaWqLAj2rTY2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+  <!-- Page-specific js -->
+  {% if page.js_files %}
+    {% for js_file in page.js_files %}
+      <script type="text/javascript" src="{{ site.github.url }}{{ '/assets/js/' | append: js_file }}" defer></script>
+    {% endfor %}
+  {% endif %}
 
   <!-- Google Analytics -->
   {% include google-analytics.html %}
