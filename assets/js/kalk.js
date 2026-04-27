@@ -10,14 +10,9 @@ function fjernFeil() {
   feilmelding.classList.remove('vis');
 }
 function formatNum(value, digits) {
-  if (value.re == Infinity) {
-    return "∞";
-  } else if (value.re == -Infinity) {
-    return "-∞";
-  } else {
-    return value.format(digits);
-  }
+  return value.format(x => math.format(x, digits).replaceAll("Infinity", "∞"));
 }
+
 function updateDisplay(digits = 4) {
   fjernFeil();
   if (stack.length == 0) {
@@ -38,6 +33,8 @@ function updateDisplay(digits = 4) {
   }
 }
 
+var speedMode = false;
+
 //Knapper
 async function clickButton(arity, recipe) {
   function diff(a, b) {
@@ -46,25 +43,52 @@ async function clickButton(arity, recipe) {
   if (stack.length < arity) {
     printFeil("Brukerfeil: Trenger minst " + arity + " tall på stabelen.");
   } else {
-    if (recipe == "x y EML") {
-      // Tullete triks egentlig. For å unngå at vi popper x og y, legger inn x og y, så bruker EML, når vi bare bruker EML-knappen
-      const y = stack.pop();
-      const x = stack.pop();
-      const newVal = diff(math.exp(x.num), math.log(y.num));
-      const newTree = { name: 'EML', input: [x.tree, y.tree] };
-      stack.push({ num: newVal, clicks: y.clicks + x.clicks + 1, tree: newTree });
-      updateDisplay();
-      return;
-    }
     var input = [];
     const wait = 200;
+    var recArray = recipe.split(' ').filter(x => x != '');
     for (var i = 0; i < arity; i++) {
       input.push(stack.pop());
+    }
+    input.reverse();
+    var addCount = 0;
+    if (recArray[0] == 'x') {
+      stack.push(input[0]);
+      recArray.shift();
+      addCount += 1;
+    }
+    if (recArray[0] == 'y') {
+      stack.push(input[1]);
+      recArray.shift();
+      addCount += 1;
+    }
+    if (recArray[0] == 'z') {
+      stack.push(input[2]);
+      recArray.shift();
+      addCount += 1;
+    }
+
+    if (!speedMode && addCount != input.length) {
       updateDisplay();
       await new Promise(r => setTimeout(r, wait));
     }
-    input.reverse();
-    const recArray = recipe.split(' ').filter(x => x != '');
+    
+    const varRecs = [];
+    for (var i = 0; i < arity; i++) {
+      varRecs.push(treeToString(input[i].tree).split(' '))
+    }
+
+    recArray = recArray.map(part => {
+      if (part == 'x') {
+        return varRecs[0];
+      } else if (part == 'y') {
+        return varRecs[1];
+      } else if (part == 'z') {
+        return varRecs[2];
+      } else {
+        return part;
+      }
+    }).flat();
+
     for (var i in recArray) {
       var op = recArray[i];
       if (op == 'C') {
@@ -85,8 +109,10 @@ async function clickButton(arity, recipe) {
       } else if (op == 'z') {
         stack.push(input[2]);
       }
-      updateDisplay();
-      await new Promise(r => setTimeout(r, wait));
+      if (!speedMode && i < recArray.length - 1) {
+        updateDisplay();
+        await new Promise(r => setTimeout(r, wait));
+      }
     }
     updateDisplay();
   }
@@ -96,6 +122,8 @@ function makeButtons() {
   const knapper = document.getElementById("knapper");
   knapper.innerText = "";
   buttons.forEach(b => {
+    const knapwrap = document.createElement("div");
+    knapwrap.classList.add("knappewrap");
     const knapp = document.createElement("button");
     knapp.innerText = b.name;
     knapp.classList.add("kalk")
@@ -108,14 +136,57 @@ function makeButtons() {
     knapp.addEventListener("click", e => {
       clickButton(b.arity, b.recipe)
     });
-    knapper.appendChild(knapp);
+    knapwrap.appendChild(knapp);
+    if (!["C", "EML", "1"].includes(b.name)) {
+      const delknapp = document.createElement("button");
+      delknapp.innerText = "✕";
+      delknapp.classList.add("sletteknapp");
+      let hoverTimeout;
+      const visSlett = () => {
+        clearTimeout(hoverTimeout);
+        delknapp.style.opacity = '1';
+        delknapp.style.pointerEvents = 'auto';
+      }
+      const skjulSlett = () => {
+        hoverTimeout = setTimeout( () => {
+          if (!delknapp.matches(':hover') && !knapwrap.matches(':hover')) {
+            delknapp.style.opacity = '0';
+            delknapp.style.pointerEvents = 'none';
+          }
+        }, 250);
+      }
+
+      knapwrap.addEventListener('mouseenter', visSlett);
+      knapwrap.addEventListener('mouseleave', skjulSlett);
+      delknapp.addEventListener('mouseEnter', visSlett);
+      delknapp.addEventListener('mouseleave', skjulSlett);
+      const bname = b.name;
+
+      delknapp.onclick = function() {
+        buttons = buttons.filter(x => x.name != bname);
+        const wrapper = this.parentElement;
+        wrapper.remove();
+        knappelagring();
+      };
+      knapwrap.appendChild(delknapp);
+    }
+    knapper.appendChild(knapwrap);
   });
 }
 
-function knappelagring() {
+function knapperekkefølge() {
   const alleKnapper = document.getElementById('knapper').childNodes;
-  const ordning = Array.from(alleKnapper).map(btn => btn.textContent);
+  const ordning = Array.from(alleKnapper).map(btn => btn.firstChild.textContent);
   buttons = ordning.map(navn => buttons.find(x => x.name == navn));
+}
+
+function knappelagring() {
+  localStorage.setItem('kalk-knapper', JSON.stringify(buttons));
+}
+
+function knappehenting() {
+  var btns = JSON.parse(localStorage.getItem('kalk-knapper'));
+  buttons = btns ? btns : [{ name: 'C', arity: 0, recipe: "C", css: "key-others" }, { name: 'EML', arity: 2, recipe: "x y EML"}, { name: '1', arity: 0, recipe: "1"}]
 }
 
 var stack = [];
@@ -128,13 +199,15 @@ const kn = document.getElementById("knapper");
 
 new Sortable(kn, {
   animation: 150,
+  handle: '.kalk',
   ghostClass: 'dragging',
   onEnd: function() {
+    knapperekkefølge();
     knappelagring();
   }
 });
 
-
+knappehenting();
 makeButtons();
 
 document.getElementById('build-button').addEventListener('click', () => {
@@ -145,8 +218,9 @@ document.getElementById('build-button').addEventListener('click', () => {
     if (success) {
       navn.value = '';
       oppgave.value = '';
-    } else {
     }
+  } else {
+    printFeil("Vennligst fyll inn både navn og operasjonsoppskrift.")
   }
 });
 
@@ -208,7 +282,7 @@ function stringToTree(buttonstring, x, y, z) {
     z = { name: 'z', input: [] }
   }
   const stabel = buttonstring.split(' ').filter(x => x != '');
-  const treeList = [];
+  var treeList = [];
   for (var i in stabel) {
     var op = stabel[i];
     if (op == 'x') {
@@ -223,9 +297,11 @@ function stringToTree(buttonstring, x, y, z) {
       var yInp = treeList.pop();
       var xInp = treeList.pop();
       treeList.push({ name: 'EML', input: [xInp, yInp] });
+    } else if (op == 'C') {
+      treeList = []
     } else {
-      var btn = buttons.find(b => b.name == op);
-      var newInput = [];
+      const btn = buttons.find(b => b.name == op);
+      const newInput = [];
       for (var i = 0; i < btn.arity; i++) {
         newInput.push(treeList.pop());
       }
@@ -267,5 +343,6 @@ function lagKnapp(navn, knappstreng) {
   const fiksetStreng = treeToString(stringToTree(knappstreng));
   buttons.push({ name: navn, arity: aritet, recipe: fiksetStreng})
   makeButtons();
+  knappelagring();
   return true;
 }

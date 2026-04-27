@@ -40,42 +40,11 @@
   outline: none;
 }
 
-button {
-  background: #333333;
-  color: #fff;
-  font-size: 1.5rem;
-  border: none;
-  border-radius: 70%;
-  cursor: pointer;
-  height: 65px;
-  width: 65px;
-}
-
-button:active,
-button:focus {
-  filter: brightness(120%);
-}
-
 .kalk-keys {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 15px;
   grid-column-gap: 10px;
-}
-
-.kalkmini {
-  height: 35px;
-  width: 35px;
-  font-size: 0.7rem;
-}
-
-.key-operate {
-  background: #ff9501;
-}
-
-.key-others {
-  background: #a6a6a6;
-  color: #000000;
 }
 
 .dragging {
@@ -94,6 +63,68 @@ button:focus {
 .feilmelding.vis {
   display: block;
 }
+
+.infoboks {
+  background:green;
+  border-radius:10px;
+  color:white;
+  padding:10px;
+  display:none;
+}
+
+.infoboks.vis {
+  display:block;
+}
+
+.knappewrap {
+  position: relative;
+  transform: translateZ(0);
+}
+.kalk {
+  background: #333333;
+  color: #fff;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 70%;
+  cursor: pointer;
+  height: 65px;
+  width: 65px;
+  align-items: center;
+}
+
+.kalk:active,
+.kalk:focus {
+  filter: brightness(120%);
+}
+
+
+.key-operate {
+  background: #ff9501;
+}
+
+.key-others {
+  background: #a6a6a6;
+  color: #000000;
+}
+
+.sletteknapp {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ff4444;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 8px;
+  line-height: 1;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
 
 .stackelem {
     padding: 5px 0;
