@@ -10,7 +10,7 @@ function fjernFeil() {
   feilmelding.classList.remove('vis');
 }
 function formatNum(value, digits) {
-  return value.format(x => math.format(x, digits).replaceAll("Infinity", "∞"));
+  return math.round(value, 10).format(x => math.format(x, digits).replaceAll("Infinity", "∞"));
 }
 
 function updateDisplay(digits = 4) {
