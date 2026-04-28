@@ -3,7 +3,6 @@
   align-items: center;
   gap: 20px;
   justify-content: center;
-  padding: 10px;
 }
 
 .kalk-container {
@@ -33,7 +32,6 @@
 .kalk-text {
   display: block;
   margin-bottom: 20px;
-  padding-left: 5px;
   width: 100%;
   font-size: 3.5rem;
   line-height: 1.25;
@@ -49,6 +47,8 @@
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 15px;
   grid-column-gap: 10px;
+  border-left: 3px solid #222;
+  padding-left: 25px;
 }
 
 .dragging {
@@ -136,7 +136,6 @@
     border-bottom: 1px solid #222;
     white-space: nowrap;
     overflow-x: hidden;
-    text-overflow: ellipsis;
 }
 
 .stackelem.longnum {
@@ -152,6 +151,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  padding: 10px;
 }
 
 .name-input {

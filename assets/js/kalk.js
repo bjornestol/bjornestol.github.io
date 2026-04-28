@@ -15,10 +15,13 @@ function formatNum(value, digits) {
 
 function updateDisplay(digits = 4) {
   fjernFeil();
+  inputValue.innerText = "";
   if (stack.length == 0) {
-    inputValue.innerText = "Ø";
+    const empty = document.createElement('div');
+    empty.className = 'stackelem';
+    empty.textContent = "Ø";
+    inputValue.appendChild(empty);
   } else {
-    inputValue.innerText = "";
     stack.forEach(num => {
       let formatted = formatNum(num.num, digits);
       const line = document.createElement('div');
