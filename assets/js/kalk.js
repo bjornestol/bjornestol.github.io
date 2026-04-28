@@ -28,7 +28,7 @@ function updateDisplay(digits = 4) {
       if (formatted.length > 6) {
         line.classList.add('longnum');
       }
-      inputValue.appendChild(line);
+      inputValue.insertBefore(line, inputValue.children[0]);
     });
   }
 }

@@ -3,14 +3,18 @@
   align-items: center;
   gap: 20px;
   justify-content: center;
+  padding: 10px;
 }
 
 .kalk-container {
   background: #000000;
   padding: 25px;
-  width: 275px;
+  width: 550px;
   border-radius: 10px;
   color: white;
+  gap: 40px;
+  display: flex;
+  align-items: start;
 }
 
 .spacer {

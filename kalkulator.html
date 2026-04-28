@@ -9,21 +9,6 @@ js_files:
 <p>Det ble <a href="https://arxiv.org/pdf/2603.21852">nylig vist</a> at en kalkulator ikke trenger så mange fancy knapper. Denne kalkulatoren gjør alt du trenger!</p>
 
 <p>Kalkulatoren bruker <a href="https://no.wikipedia.org/wiki/Omvendt_polsk_notasjon">omvendt polsk notasjon</a>, og stabelen vises fortløpende.</p>
-<div class="kalk-page-wrapper">
-  <div class="spacer"></div>
-  <div class="kalk-container">
-    <div class="kalk-text" name="user-input" id="user-input">
-      <p>Ø</p>
-    </div>
-    <div class="kalk-keys" id="knapper">
-    </div>
-  </div>
-  <div class="sidebar"></div>
-</div>
-<div class="kalk-page-wrapper">
-<div class="infoboks", id="info"></div>
-<div class="feilmelding" id="fm"></div>
-</div>
 <p> Om du mener kalkulatoren trenger mer, bygg funksjonalitet selv. Funksjonalitet kan ta imot maks 3 variable, med navn $x$, $y$, og $z$, og kan bruke tidligere bygde funksjonaliteter.</p>
 <div class="kalk-page-wrapper">
 <div class="input-row">
@@ -31,4 +16,17 @@ js_files:
   <input type="text" id="knappstreng" class="knapp-input" placeholder = "x 1 EML">
   <button id="build-button" class="build-btn">Bygg</button>
 </div>
+</div>
+<div class="kalk-page-wrapper">
+  <div class="kalk-container">
+    <div class="kalk-text" name="user-input" id="user-input">
+      <p>Ø</p>
+    </div>
+    <div class="kalk-keys" id="knapper">
+    </div>
+  </div>
+</div>
+<div class="kalk-page-wrapper">
+<div class="infoboks", id="info"></div>
+<div class="feilmelding" id="fm"></div>
 </div>
